@@ -1,5 +1,4 @@
 
-import asyncio
 import base64
 import json
 import threading
@@ -10,7 +9,6 @@ from Crypto.Cipher import AES
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from cryptography.exceptions import InvalidSignature
 import websocket
-import asyncio
 import queue
 
 unpad = lambda s: s[:-s[-1]]
