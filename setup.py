@@ -17,8 +17,7 @@ setup(
         "requests",
         "Crypto",
         "cryptography",
-        "websocket",
-        "queue"
+        "websocket"
     ],
     include_package_data=True,
     platforms="any"
