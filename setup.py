@@ -8,7 +8,7 @@ setup(
     description="license sdk python",
     license="MIT Licence",
 
-    url="https://github.com/geovis-datacloud/geovis-cloud-api-python.git",
+    url="https://github.com/qiaoyk666/license-sdk-python.git",
     author="qiao",
     author_email="979146919@qq.com",
 
