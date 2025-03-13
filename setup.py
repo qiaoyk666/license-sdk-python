@@ -13,6 +13,13 @@ setup(
     author_email="979146919@qq.com",
 
     packages=find_packages(),
+    install_requires=[
+        "requests",
+        "Crypto",
+        "cryptography",
+        "websocket",
+        "queue"
+    ],
     include_package_data=True,
     platforms="any"
 )
