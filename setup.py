@@ -15,7 +15,6 @@ setup(
     packages=find_packages(),
     install_requires=[
         "requests",
-        "Crypto",
         "cryptography",
         "websocket",
         "pycryptodome"
