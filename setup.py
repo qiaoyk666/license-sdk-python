@@ -16,7 +16,7 @@ setup(
     install_requires=[
         "requests",
         "cryptography",
-        "websocket",
+        "websocket-client",
         "pycryptodome"
     ],
     include_package_data=True,
