@@ -17,7 +17,8 @@ setup(
         "requests",
         "Crypto",
         "cryptography",
-        "websocket"
+        "websocket",
+        "pycryptodome"
     ],
     include_package_data=True,
     platforms="any"
