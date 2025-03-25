@@ -2,7 +2,7 @@
 
 1 安装
 ```bash
-pip install git+https://github.com/qiaoyk666/license-sdk-python.git
+pip install license-sdk-python
 ```
 
 2 Client使用

@@ -1,0 +1,4 @@
+/build/
+/dist/
+/license_sdk_python.egg-info/
+/license_sdk_python/__pycache__/client.cpython-312.pyc
