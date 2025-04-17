@@ -188,4 +188,8 @@ class Client(object):
         if (module['issuedTime'] > now):
             return False
         return True
+    
+    def getRemainingDays(self) -> int:
+        expireTime = self.module['expireTime']
+        return int((expireTime - time.time()) / 3600 / 24) 
  

@@ -25,4 +25,8 @@ def test():
     else:
         print(f'key: {key} has no permission')
 
+    days = client.getRemainingDays()
+
+    print("有效期剩余天数：", days)
+
 test()    
