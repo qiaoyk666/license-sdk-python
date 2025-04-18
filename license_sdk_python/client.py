@@ -1,8 +1,11 @@
 
 import base64
+import enum
 import json
+import math
 import threading
 import time
+from typing import Callable, Dict, List
 
 import requests
 from Crypto.Cipher import AES
@@ -12,6 +15,8 @@ import websocket
 import queue
 
 unpad = lambda s: s[:-s[-1]]
+
+
 
 class Module(object):
     def __init__(self, key, name, issuedTime, expireTime, extra, childFuncs):
@@ -31,12 +36,21 @@ class InitRes(object):
 
 _public_key = '9703919fcd22d32a13bb00fba33a2dd0d35746a597f7c5a4843c567c3482c204'
 
+class EventType(enum.Enum):
+    LicenseChange = "license_change"
+    ConnectionError = "connection_error"
+    LicenseExpiring = "license_expiring"
+
+class WsMsgType(enum.Enum):
+    WsMsgTypePermissionTree = 1
+    WsMsgTypeExpireWarning = 2
 
 class Client(object):
     publicKey: str
     module: Module
     q = queue.Queue()
     flag = False
+    eventCallbacks: Dict[str, List[any]] = {EventType.LicenseChange: [], EventType.ConnectionError: [], EventType.LicenseExpiring: []}
     # endPoint: 服务地址，prodKey: 标品唯一标识
     def __init__(self, endPoint: str, prodKey: str):
         self.endPoint = endPoint
@@ -90,10 +104,21 @@ class Client(object):
 
     def on_message(self, ws, message):
         print(f"Received message: {message}")
-        self.module = self.verifyModuleMsg(json.loads(message))
+        messageObj = json.loads(message)
+        match messageObj["msgType"]:
+            case WsMsgType.WsMsgTypePermissionTree.value:
+                self.module = self.verifyModuleMsg(messageObj)
+                self.emit(EventType.LicenseChange, self.module)
+                return
+            case WsMsgType.WsMsgTypeExpireWarning.value:
+                msg = base64.b64decode(messageObj["msg"])
+                msg = json.loads(msg.decode())
+                self.emit(EventType.LicenseExpiring, msg)
+                return
     
     def on_error(self, ws, error):
         print(f"ws Error: {error}")
+        self.emit(EventType.ConnectionError, error)
     
     def on_close(self, ws, close_status_code, close_msg):
         print("### ws closed ###")
@@ -191,5 +216,12 @@ class Client(object):
     
     def getRemainingDays(self) -> int:
         expireTime = self.module['expireTime']
-        return int((expireTime - time.time()) / 3600 / 24) 
+        return math.ceil(((expireTime - time.time()) / 3600 / 24) )
+    
+    def emit(self, event: EventType, data: any):
+        callbacks = self.eventCallbacks[event]
+        for callback in callbacks:
+            callback(data)
  
+    def on(self, event: EventType, callback: any):
+        self.eventCallbacks[event].append(callback)

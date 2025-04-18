@@ -1,4 +1,4 @@
-from client import Client
+from client import Client, EventType
 
 def test():
     # 初始化sdk客户端
@@ -28,5 +28,18 @@ def test():
     days = client.getRemainingDays()
 
     print("有效期剩余天数：", days)
+
+    def license_change_callback(data: any):
+        print("license_change_callback data: ", data)
+
+    def license_expiring_callback(data: any):
+        print("license_expiring_callback data: ", data) # {'day': 179}
+
+    def connection_error_callback(data: any): 
+        print("Error connection: ", data)
+
+    client.on(EventType.LicenseChange, license_change_callback)
+    client.on(EventType.LicenseExpiring, license_expiring_callback)
+    client.on(EventType.ConnectionError, connection_error_callback)
 
 test()    
