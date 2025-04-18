@@ -26,8 +26,7 @@ def test():
         print(f'key: {key} has no permission')
 
     days = client.getRemainingDays()
-
-    print("有效期剩余天数：", days)
+    print("许可证书有效期剩余天数：", days)
 
     def license_change_callback(data: any):
         print("license_change_callback data: ", data)
@@ -38,8 +37,13 @@ def test():
     def connection_error_callback(data: any): 
         print("Error connection: ", data)
 
+    # 监听证书变化事件
     client.on(EventType.LicenseChange, license_change_callback)
+
+    # 监听证书即将过期事件
     client.on(EventType.LicenseExpiring, license_expiring_callback)
+
+    # 监听ws链接异常
     client.on(EventType.ConnectionError, connection_error_callback)
 
 test()    
