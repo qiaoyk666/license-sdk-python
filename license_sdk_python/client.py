@@ -34,8 +34,6 @@ class InitRes(object):
         self.result = result
         self.msg = msg
 
-# _public_key = '495668e3433d15f0844f41e0c38a7eba13f618174e7b40ce2ec9f1977e55fde5'
-
 class EventType(enum.Enum):
     LicenseChange = "license_change"
     ConnectionError = "connection_error"
