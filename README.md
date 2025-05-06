@@ -10,7 +10,7 @@ pip install license-sdk-python
 from license_sdk_python import Client
 
 # 初始化sdk客户端
-client = Client("localhost:18080", "10002")  
+client = Client("http://localhost:18080", "10002", "your secret key") # secret key 向开发者获取  
 initRes = client.init()
 if (initRes.result == False):
     print(f'sdk client init failed: {initRes.msg}')
@@ -51,6 +51,9 @@ client.on(EventType.LicenseChange, license_change_callback)
 
 # 监听证书即将过期事件
 client.on(EventType.LicenseExpiring, license_expiring_callback)
+
+ # 监听证书撤销事件
+client.on(EventType.LicenseRevoke, license_revoke_callback)
 
 # 监听ws链接异常
 client.on(EventType.ConnectionError, connection_error_callback)

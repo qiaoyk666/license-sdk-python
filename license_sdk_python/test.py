@@ -2,7 +2,7 @@ from client import Client, EventType
 
 def test():
     # 初始化sdk客户端
-    client = Client("localhost:18080", "10002")  
+    client = Client("http://localhost:18080", "10002", "your secret key") # secret key 向开发者获取  
     initRes = client.init()
     if (initRes.result == False):
         print(f'sdk client init failed: {initRes.msg}')
@@ -34,6 +34,9 @@ def test():
     def license_expiring_callback(data: any):
         print("license_expiring_callback data: ", data) # {'day': 179}
 
+    def license_revoke_callback(data: any):
+        print("license_revoke_callback data: ", data) 
+
     def connection_error_callback(data: any): 
         print("Error connection: ", data)
 
@@ -42,6 +45,9 @@ def test():
 
     # 监听证书即将过期事件
     client.on(EventType.LicenseExpiring, license_expiring_callback)
+
+    # 监听证书撤销事件
+    client.on(EventType.LicenseRevoke, license_revoke_callback)
 
     # 监听ws链接异常
     client.on(EventType.ConnectionError, connection_error_callback)
