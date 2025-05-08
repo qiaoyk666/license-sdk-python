@@ -77,7 +77,6 @@ class Client(object):
         # 2. AES解密返回的数据
         decryptRes = self.aes_ECB_decrypt(pubkeyResp['data'], self.pk[:32])
         decryptRes = json.loads(decryptRes)
-        print("decryptRes====================", decryptRes)
 
         if (decryptRes['prodKey'] != self.prodKey):
             msg = f'prodkey not match'
@@ -90,7 +89,7 @@ class Client(object):
         # 3. 获取权限树
         modulesResp = self.request(f'{self.endPoint}/modules?prodkey={self.prodKey}', 'GET', { 'Content-Type': 'application/json'}, None)
         if (modulesResp['code'] != 200):
-            msg = f'failed to get modules : {modulesResp['msg']}'
+            msg = f'failed to get modules : {modulesResp["msg"]}'
             print(msg)
             res.msg = msg
             return res

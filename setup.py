@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="license-sdk-python",
-    version="0.0.6",
+    version="0.0.7",
     keywords=("pip", "license", "sdk"),
     description="license sdk python",
     license="MIT Licence",

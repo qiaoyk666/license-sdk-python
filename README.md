@@ -43,6 +43,9 @@ def license_change_callback(data: any):
 def license_expiring_callback(data: any):
     print("license_expiring_callback data: ", data) # {'day': 179}
 
+def license_revoke_callback(data: any):
+    print("license_revoke_callback data: ", data) 
+
 def connection_error_callback(data: any): 
     print("Error connection: ", data)
 
