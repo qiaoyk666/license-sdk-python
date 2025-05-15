@@ -2,7 +2,7 @@ from client import Client, EventType
 
 def test():
     # 初始化sdk客户端
-    client = Client("http://localhost:18080", "10002", "your secret key") # secret key 向开发者获取  
+    client = Client("http://ip:port", "your prodkey", "your secret key") # secret key 向开发者获取  
     initRes = client.init()
     if (initRes.result == False):
         print(f'sdk client init failed: {initRes.msg}')
@@ -18,7 +18,8 @@ def test():
     print("module: ", module)
 
     # 校验指定key是否有权限
-    key = '10002.10002'
+    # key = '10002.10002'
+    key = 'xtyt000.1000'
     isok = client.validate(key) # True or False
     if (isok == True):
         print(f'key: {key} has permission')

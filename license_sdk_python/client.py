@@ -17,8 +17,15 @@ import queue
 unpad = lambda s: s[:-s[-1]]
 
 
+type Modulelist = List[Module]
 
 class Module(object):
+    key: str
+    name: str
+    issuedTime: str
+    expireTime: str
+    extra: str
+    childFuncs: Modulelist
     def __init__(self, key, name, issuedTime, expireTime, extra, childFuncs):
         self.key = key
         self.name = name
@@ -57,12 +64,12 @@ class Client(object):
     maxReconnectAttempts: int = 5 # 最大重连次数
     reconnectWaitTimeSecond: int = 3
     reconnectAttempt: int = 0
-    pk: str
+    secretKey: str
     # endPoint: 服务地址，prodKey: 标品唯一标识
-    def __init__(self, endPoint: str, prodKey: str, pk: str):
+    def __init__(self, endPoint: str, prodKey: str, secretKey: str):
         self.endPoint = endPoint
         self.prodKey = prodKey
-        self.pk = pk
+        self.secretKey = secretKey
 
     def init(self):
         res = InitRes(False, '')
@@ -75,7 +82,7 @@ class Client(object):
             return res
         
         # 2. AES解密返回的数据
-        decryptRes = self.aes_ECB_decrypt(pubkeyResp['data'], self.pk[:32])
+        decryptRes = self.aes_ECB_decrypt(pubkeyResp['data'], self.secretKey[:32])
         decryptRes = json.loads(decryptRes)
 
         if (decryptRes['prodKey'] != self.prodKey):
